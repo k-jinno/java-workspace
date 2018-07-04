@@ -198,19 +198,13 @@ public class Calc {
 	public static double[][] InvertMatirox(double a[][]){
 		double[][]A_inv=new double[a.length][a.length];
 		double[][]A=LU(a);
-		System.out.println("A=");
-		printMat(A);
 		double[]y=new double[a.length];
 		double []x=new double[a.length];
 		for(int i=0;i<a.length;i++){
 			double []e_i=new double[a.length];
 			e_i[i]=1;
 			y=Forward_sub(A,e_i);
-			System.out.println("y=");
-			printVec(y);
 			x=Backward_sub(A,y);
-			System.out.println("x=");
-			printVec(x);
 			for(int j=0;j<a.length;j++){
 				A_inv[j][i]=x[j];
 			}

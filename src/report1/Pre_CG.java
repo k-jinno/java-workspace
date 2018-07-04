@@ -56,12 +56,9 @@ public class Pre_CG {
 				}else{
 					L[j][i]=(A[j][i]-sum1)/L[i][i];
 				}
-				System.out.print(j + "," + i + "=");
-				System.out.println(L[i][j]);
 			}
 			D[i][i] = 1 / L[i][i];
 		}
-		Calc.printMat(L);
 		return Calc.multipleMat(Calc.multipleMat(L, D),Calc.Trans_Mat(L) );
 	}
 

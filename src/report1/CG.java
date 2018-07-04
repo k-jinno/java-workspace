@@ -4,33 +4,36 @@ import calc.Calc;
 
 public class CG {
 	public static double[] CGalg(double[] x,double[] b,double[][]A){
+		//時間計測開始
+		long startTime = System.nanoTime();
 		//初期値の設定
 		double[] r = Calc.subVec(b,Calc.matVec(A,x));
-		System.out.println("初期値r=");
-		Calc.printVec(r);
 		double[] p = Calc.copyVec(r);
 		double e =0.1;
 		int count = 1;
 		while(true){
 
 			double [] w = Calc.matVec(A, p);
-			System.out.println("w=");
-			Calc.printVec(w);
 			double α = Calc.vecNorm2(r) * Calc.vecNorm2(r) / Calc.innProd(p, w);
 			x = Calc.addVec(x, Calc.scalarMultiple(α, p));
-			System.out.println("x=");
-			Calc.printVec(x);
 			double[]  r_pre = Calc.copyVec(r);
 			r = Calc.subVec(r, Calc.scalarMultiple(α, w));
-			System.out.println("r=");
-			Calc.printVec(r);
 
 			//収束判定
 			if(Calc.vecNorm2(r) <= e * Calc.vecNorm2(b)){
+				long endTime = System.nanoTime();
+				System.out.println("開始時刻：" + startTime + " ナノ秒");
+		        System.out.println("終了時刻：" + endTime + " ナノ秒");
+		        System.out.println("処理時間：" + (endTime - startTime) + " ナノ秒");
+				System.out.println("反復回数は" + count + "回");
 				return x;
 			}
 
 			if(count == x.length){
+			long endTime = System.nanoTime();
+			System.out.println("開始時刻：" + startTime + " ナノ秒");
+	        System.out.println("終了時刻：" + endTime + " ナノ秒");
+	        System.out.println("処理時間：" + (endTime - startTime) + " ナノ秒");
 			System.out.println("収束しません");
 			return x;
 		}
@@ -42,6 +45,8 @@ public class CG {
 	}
 
 	public static double[] CG_pre_alg(double[] x,double[] b,double[][]A,double[][] M){
+		//時間計測開始
+		long startTime = System.nanoTime();
 		//初期値の設定
 
 		double[] r = Calc.subVec(b,Calc.matVec(A,x));
@@ -59,13 +64,49 @@ public class CG {
 
 			//収束判定
 			if(Calc.vecNorm2(r) <= e * Calc.vecNorm2(b)){
+				long endTime = System.nanoTime();
+				System.out.println("開始時刻：" + startTime + " ナノ秒");
+		        System.out.println("終了時刻：" + endTime + " ナノ秒");
+		        System.out.println("処理時間：" + (endTime - startTime) + " ナノ秒");
 				System.out.println("反復回数" + count + "回で収束");
-				return x;
+				double[] x2 = new double[x.length + 4];
+				for(int i=0;i<x2.length;i++){
+					if(i==0){
+						x2[i] = startTime;
+					}else if(i == 1){
+						x2[i] = endTime;
+					}else if(i == 2){
+						x2[i] = endTime - startTime;
+					}else if(i == 3){
+						x2[i] = count;
+					}else{
+						x2[i] = x[i-4];
+					}
+				}
+				return x2;
 			}
 
-			if(count == 100000){
+			if(count == A.length){
+			long endTime = System.nanoTime();
+			System.out.println("開始時刻：" + startTime + " ナノ秒");
+	        System.out.println("終了時刻：" + endTime + " ナノ秒");
+	        System.out.println("処理時間：" + (endTime - startTime) + " ナノ秒");
 			System.out.println("収束しません");
-			return x;
+			double[] x2 = new double[x.length + 4];
+			for(int i=0;i<x2.length;i++){
+				if(i==0){
+					x2[i] = startTime;
+				}else if(i == 1){
+					x2[i] = endTime;
+				}else if(i == 2){
+					x2[i] = endTime - startTime;
+				}else if(i == 3){
+					x2[i] = count;
+				}else{
+					x2[i] = x[i-4];
+				}
+			}
+			return x2;
 		}
 
 			double[]z_pre = Calc.copyVec(z);
